@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Impostor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        
+        <!-- TELA 1: SETUP -->
+        <div id="setup-screen" class="screen active">
+            <h1>Configurar Partida</h1>
+            
+            <div class="form-group">
+                <label>Modo de Jogo:</label>
+                <select id="game-mode">
+                    <option value="1">Modo 1 (Impostor recebe dica)</option>
+                    <option value="2">Modo 2 (Impostor recebe palavra similar)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Adicionar Jogador:</label>
+                <div class="input-row">
+                    <input type="text" id="player-input" placeholder="Nome do jogador">
+                    <button id="add-player-btn">Adicionar</button>
+                </div>
+            </div>
+
+            <ul id="players-list"></ul>
+
+            <button id="start-game-btn" class="primary-btn" disabled>Iniciar Jogo</button>
+        </div>
+
+        <!-- TELA 2: PASSAR O CELULAR -->
+        <div id="pass-screen" class="screen hidden">
+            <h2>Passe o celular para:</h2>
+            <h1 id="pass-player-name" class="highlight">---</h1>
+            <button id="confirm-player-btn" class="primary-btn">Sou eu</button>
+        </div>
+
+        <!-- TELA 3: VER PALAVRA -->
+        <div id="word-screen" class="screen hidden">
+            <h2 id="viewing-player-name">---</h2>
+            <p>Sua palavra secreta é:</p>
+            <h1 id="secret-word" class="secret highlight">???</h1>
+            <p id="hint-text" class="hidden"></p>
+            <button id="hide-word-btn" class="primary-btn">Esconder e Continuar</button>
+        </div>
+
+        <!-- TELA 4: VOTAÇÃO -->
+        <div id="voting-screen" class="screen hidden">
+            <h2>Hora da Votação!</h2>
+            <p>Discutam. Quando decidirem, votem em quem vocês acham que é o impostor:</p>
+            <div id="voting-list" class="button-list"></div>
+        </div>
+
+        <!-- TELA 5: RESULTADO -->
+        <div id="result-screen" class="screen hidden">
+            <h1 id="result-title">---</h1>
+            <p id="result-imposter">O impostor era: <span>---</span></p>
+            <p id="result-word">A palavra original era: <span>---</span></p>
+            <button id="restart-btn" class="primary-btn">Jogar Novamente</button>
+        </div>
+
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
