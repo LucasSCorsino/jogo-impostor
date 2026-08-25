@@ -1,37 +1,110 @@
-:root {
-    --bg-color: #f4f4f9;
-    --text-color: #333;
-    --primary: #2c3e50;
-    --secondary: #34495e;
-    --accent: #e74c3c;
-    --btn-text: #fff;
+/* =====================================================================
+   O IMPOSTOR — Design System
+   Tema escuro, glassmorphism e microinterações.
+   Toda a lógica do jogo vive em app.js — este arquivo é 100% visual.
+   ===================================================================== */
+
+   :root {
+    --bg-1: #0f0c29;
+    --bg-2: #24243e;
+    --bg-3: #1a1a2e;
+
+    --surface: rgba(255, 255, 255, 0.06);
+    --border: rgba(255, 255, 255, 0.12);
+
+    --text: #f2f2f7;
+    --text-muted: #a1a1c2;
+
+    --accent-1: #8b5cf6;
+    --accent-2: #ec4899;
+    --accent-gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --shadow-glow: 0 0 0 1px rgba(139, 92, 246, 0.25), 0 8px 24px rgba(139, 92, 246, 0.25);
+
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'Inter', sans-serif;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    font-family: var(--font-body);
+    color: var(--text);
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.35), transparent 45%),
+        radial-gradient(circle at 85% 20%, rgba(236, 72, 153, 0.25), transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(59, 130, 246, 0.2), transparent 45%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-3) 60%, var(--bg-2));
+    background-attachment: fixed;
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
+    padding: 24px 16px;
 }
 
-.container {
+.app-shell {
     width: 100%;
-    max-width: 500px;
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 48px);
+}
+
+/* ===== HEADER / FOOTER (fora das telas, sempre visíveis) ===== */
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px 0 20px;
+}
+
+.app-logo {
+    font-size: 1.6rem;
+    filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.6));
+}
+
+.app-title {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.app-footer {
     text-align: center;
+    padding: 18px 0 4px;
+    font-size: 0.72rem;
+    color: rgba(161, 161, 194, 0.6);
+}
+
+/* ===== CARD PRINCIPAL ===== */
+.container {
+    flex: 1;
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    padding: 32px 26px;
+    text-align: center;
+    overflow: hidden;
 }
 
 .screen {
@@ -40,18 +113,53 @@ body {
 
 .screen.active {
     display: block;
+    animation: fadeSlideIn 0.45s ease both;
 }
 
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== TIPOGRAFIA ===== */
 h1, h2 {
-    margin-bottom: 20px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+}
+
+h1 { font-size: 1.5rem; }
+h2 { font-size: 1.2rem; margin-bottom: 6px; }
+
+.eyebrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    margin: 6px 0 22px;
+    line-height: 1.5;
 }
 
 .highlight {
-    font-size: 2.5rem;
-    color: var(--accent);
-    margin: 20px 0;
+    font-family: var(--font-heading);
+    font-size: 2.1rem;
+    font-weight: 800;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 18px 0;
+    word-break: break-word;
 }
 
+/* ===== FORMULÁRIO (TELA DE SETUP) ===== */
 .form-group {
     margin-bottom: 20px;
     text-align: left;
@@ -60,15 +168,58 @@ h1, h2 {
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper::after {
+    content: '▾';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
 }
 
 select, input {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
+    padding: 13px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 36px;
+}
+
+select option {
+    background: var(--bg-3);
+    color: var(--text);
+}
+
+input::placeholder {
+    color: rgba(242, 242, 247, 0.4);
+}
+
+select:focus, input:focus {
+    border-color: var(--accent-1);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
 }
 
 .input-row {
@@ -76,66 +227,134 @@ select, input {
     gap: 10px;
 }
 
+.input-row input {
+    flex: 1;
+}
+
+.input-row button {
+    flex-shrink: 0;
+    padding: 13px 20px;
+    background: var(--accent-gradient);
+    color: #fff;
+}
+
+/* ===== BOTÕES ===== */
 button {
-    padding: 12px 20px;
     border: none;
-    border-radius: 6px;
-    font-size: 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
     cursor: pointer;
-    font-weight: bold;
-    transition: opacity 0.2s;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease, background 0.15s ease;
 }
 
 button:active {
-    opacity: 0.8;
+    transform: scale(0.97);
 }
 
 .primary-btn {
-    background-color: var(--primary);
-    color: var(--btn-text);
+    background: var(--accent-gradient);
+    color: #fff;
     width: 100%;
-    margin-top: 15px;
+    padding: 15px 20px;
+    margin-top: 10px;
+    box-shadow: var(--shadow-glow);
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
 }
 
 .primary-btn:disabled {
-    background-color: #95a5a6;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-muted);
+    box-shadow: none;
     cursor: not-allowed;
+    transform: none;
 }
 
+.hint-footer {
+    margin-top: 12px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+/* ===== LISTA DE JOGADORES ===== */
 #players-list {
     list-style: none;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     text-align: left;
-    
-    /* Isso aqui resolve a responsividade da lista */
-    max-height: 180px; 
-    overflow-y: auto; 
-    padding-right: 5px;
+    max-height: 190px;
+    overflow-y: auto;
+    padding-right: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-/* Personaliza a barra de rolagem (opcional, mas fica mais limpo) */
 #players-list::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
 }
 #players-list::-webkit-scrollbar-thumb {
-    background-color: #ccc;
+    background-color: var(--border);
     border-radius: 4px;
 }
 
-/* Garante que botões e inputs não fiquem "esticados" demais fora do container */
+#players-list li {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    padding: 12px 12px 12px 16px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.92rem;
+    animation: fadeSlideIn 0.25s ease both;
+}
+
+/* Botão "X" é criado via JS com padding inline — cobrimos o resto aqui */
+#players-list li button {
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-family: var(--font-body);
+    line-height: 1;
+}
+
+#players-list li button:hover {
+    background: rgba(239, 68, 68, 0.3);
+    color: #fff;
+}
+
 input, select, button {
     max-width: 100%;
 }
 
-#players-list li {
-    background: #ecf0f1;
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: space-between;
+/* ===== TELA DA PALAVRA SECRETA ===== */
+.word-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-md);
+    padding: 28px 18px;
+    margin-bottom: 20px;
 }
 
+.hint-badge {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 16px;
+    background: rgba(236, 72, 153, 0.15);
+    border: 1px solid rgba(236, 72, 153, 0.4);
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #f9a8d4;
+}
+
+/* ===== VOTAÇÃO ===== */
 .button-list {
     display: flex;
     flex-direction: column;
@@ -144,10 +363,68 @@ input, select, button {
 }
 
 .vote-btn {
-    background-color: var(--secondary);
-    color: var(--btn-text);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 14px 18px;
+    text-align: left;
+    border-radius: var(--radius-sm);
+}
+
+.vote-btn::before {
+    content: '🗳️ ';
+}
+
+.vote-btn:hover {
+    background: rgba(139, 92, 246, 0.18);
+    border-color: var(--accent-1);
+    transform: translateX(2px);
+}
+
+/* ===== RESULTADO ===== */
+.result-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 6px 18px;
+    margin: 18px 0 22px;
+    text-align: left;
+}
+
+.result-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    padding: 12px 0;
+}
+
+.result-card p span {
+    display: block;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-top: 2px;
+}
+
+.result-card p + p {
+    border-top: 1px solid var(--border);
 }
 
 .hidden {
     display: none !important;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 380px) {
+    .container { padding: 26px 18px; }
+    .highlight { font-size: 1.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .screen.active, #players-list li {
+        animation: none;
+    }
+    .primary-btn:hover, .vote-btn:hover {
+        transform: none;
+    }
 }

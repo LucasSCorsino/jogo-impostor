@@ -3,72 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O Impostor</title>
+    <meta name="description" content="O Impostor — jogo de dedução social para jogar com a galera, celular na mão.">
+    <title>O Impostor · Jogo de Dedução Social</title>
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AD%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        
-        <!-- TELA 1: SETUP -->
-        <div id="setup-screen" class="screen active">
-            <h1>Configurar Partida</h1>
-            
-            <div class="form-group">
-                <label>Modo de Jogo:</label>
-                <select id="game-mode">
-                    <option value="1">Modo 1 (Impostor recebe dica)</option>
-                    <option value="2">Modo 2 (Impostor recebe palavra similar)</option>
-                </select>
-            </div>
+    <div class="app-shell">
 
-            <div class="form-group">
-                <label>Adicionar Jogador: </label>
-                <div class="input-row">
-                    <input type="text" id="player-input" placeholder="Nome do jogador">
-                    <button id="add-player-btn">Adicionar</button>
+        <header class="app-header">
+            <span class="app-logo" aria-hidden="true">🎭</span>
+            <span class="app-title">O Impostor</span>
+        </header>
+
+        <main class="container">
+
+            <!-- TELA 1: SETUP -->
+            <div id="setup-screen" class="screen active">
+                <span class="eyebrow">Nova partida</span>
+                <h1>Configurar Partida</h1>
+                <p class="subtitle">Escolha o modo, chame a galera e comece o jogo.</p>
+
+                <div class="form-group">
+                    <label for="game-mode">Modo de jogo</label>
+                    <div class="select-wrapper">
+                        <select id="game-mode">
+                            <option value="1">🕵️ Modo 1 — Impostor recebe uma dica</option>
+                            <option value="2">🎭 Modo 2 — Impostor recebe palavra parecida</option>
+                        </select>
+                    </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="player-input">Jogadores</label>
+                    <div class="input-row">
+                        <input type="text" id="player-input" placeholder="Nome do jogador">
+                        <button id="add-player-btn" type="button">Adicionar</button>
+                    </div>
+                </div>
+
+                <ul id="players-list"></ul>
+
+                <button id="start-game-btn" class="primary-btn" disabled>Iniciar Jogo</button>
+                <p class="hint-footer">Mínimo de 3 jogadores para começar</p>
             </div>
 
-            <!-- Lista de jogadores -->
-            <ul id="players-list"></ul>
+            <!-- TELA 2: PASSAR O CELULAR -->
+            <div id="pass-screen" class="screen">
+                <span class="eyebrow">Passe o celular</span>
+                <h2>Passe o celular para:</h2>
+                <h1 id="pass-player-name" class="highlight">---</h1>
+                <p class="subtitle">Confirme só quando estiver com o celular em mãos, longe de olhares curiosos 👀</p>
+                <button id="confirm-player-btn" class="primary-btn">Sou eu, ver minha palavra</button>
+            </div>
 
-            <button id="start-game-btn" class="primary-btn" disabled>Iniciar Jogo</button>
-        </div>
+            <!-- TELA 3: VER PALAVRA -->
+            <div id="word-screen" class="screen">
+                <h2 id="viewing-player-name">---</h2>
+                <p class="subtitle">Sua palavra secreta é:</p>
 
-        <!-- TELA 2: PASSAR O CELULAR -->
-        <div id="pass-screen" class="screen">
-            <h2>Passe o celular para:</h2>
-            <h1 id="pass-player-name" class="highlight">---</h1>
-            <button id="confirm-player-btn" class="primary-btn">Sou eu</button>
-        </div>
+                <div class="word-card">
+                    <h1 id="secret-word" class="secret highlight">???</h1>
+                    <!-- O hidden continua aqui de propósito: é a dica do impostor -->
+                    <p id="hint-text" class="hint-badge hidden"></p>
+                </div>
 
-        <!-- TELA 3: VER PALAVRA -->
-        <div id="word-screen" class="screen">
-            <h2 id="viewing-player-name">---</h2>
-            <p>Sua palavra secreta é:</p>
-            <h1 id="secret-word" class="secret highlight">???</h1>
-            
-            <!-- Aqui o hidden continua, porque é a dica! -->
-            <p id="hint-text" class="hidden"></p> 
-            
-            <button id="hide-word-btn" class="primary-btn">Esconder e Continuar</button>
-        </div>
+                <button id="hide-word-btn" class="primary-btn">Esconder e Continuar</button>
+            </div>
 
-        <!-- TELA 4: VOTAÇÃO -->
-        <div id="voting-screen" class="screen">
-            <h2>Hora da Votação!</h2>
-            <p>Discutam. Quando decidirem, votem em quem vocês acham que é o impostor:</p>
-            <div id="voting-list" class="button-list"></div>
-        </div>
+            <!-- TELA 4: VOTAÇÃO -->
+            <div id="voting-screen" class="screen">
+                <span class="eyebrow">Deliberação</span>
+                <h2>Hora da Votação!</h2>
+                <p class="subtitle">Discutam bem. Quando decidirem, votem em quem vocês acham que é o impostor:</p>
+                <div id="voting-list" class="button-list"></div>
+            </div>
 
-        <!-- TELA 5: RESULTADO -->
-        <div id="result-screen" class="screen">
-            <h1 id="result-title">---</h1>
-            <p id="result-imposter">O impostor era: <span>---</span></p>
-            <p id="result-word">A palavra original era: <span>---</span></p>
-            <button id="restart-btn" class="primary-btn">Jogar Novamente</button>
-        </div>
+            <!-- TELA 5: RESULTADO -->
+            <div id="result-screen" class="screen">
+                <h1 id="result-title">---</h1>
+                <div class="result-card">
+                    <p id="result-imposter">O impostor era: <span>---</span></p>
+                    <p id="result-word">A palavra original era: <span>---</span></p>
+                </div>
+                <button id="restart-btn" class="primary-btn">Jogar Novamente</button>
+            </div>
 
+        </main>
+
+        <footer class="app-footer">
+            <span>Feito para jogar com a galera 🎉</span>
+        </footer>
     </div>
 
     <script src="data.js"></script>
